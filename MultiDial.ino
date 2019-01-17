@@ -21,9 +21,9 @@ char arrowRgt = KEY_RIGHT_ARROW ;
 
 Encoder Enc(3,2);
 long count = -999; 
-                   //lotate count
-int lotState = 0; 
-                   // lotate state 
+                   //rotate count
+int rotState = 0; 
+                   // rotate state 
                    // 1 left
                    // 0 right 
                    // if mode change add function ex mpv
@@ -68,43 +68,62 @@ void loop() {
   long rotSen = Enc.read();
   int pushSen = digitalRead(4);
                            //sensing 
+
+rotState = rotState + mode ;
+                           
   if (rotSen != count){
       Serial.print("ct =");
       Serial.print(rotSen);
       Serial.println();
     
       if(rotSen > count){
-          lotState = 1;
-          Serial.println("left");
+          //if (rotState == 1){
+              Serial.println("left");
+          //}else if(rotState == 3){
+              Serial.println("mode2 left");            
+          //}; 
         }else if(rotSen < count){
-          lotState = 0;
-          Serial.println("right");
+          //if (rotState == 0){
+              Serial.println("right");
+          //}else if(rotState == 2){
+              Serial.println("mode2 right");            
+          //}; 
         };
         
-    count = rotSen;
+ count = rotSen ;
     
     };
         
                                      // if a character is sent from the serial monitor,
-                                     // reset both back to zero.
+                                     // reset back to zero.
     if (Serial.available()) {
         Serial.read();
         Serial.println("Reset to zero");
         Enc.write(0);
      };
     
-    pushState = pushSen + mode ; // temp
+    pushState = pushSen + mode ; // different value for diffrent mode
     
   if(pushState == 0){
-    Serial.print(pushState);
-    Keyboard.begin();
-    Keyboard.press(alt);
-    Keyboard.write(arrowLft);
-    Keyboard.releaseAll();
-    Keyboard.end();
-    delay(300);
+      Serial.println(pushState);
+                              //check mode and output
+      Keyboard.begin();
+      Keyboard.press(alt);
+      Keyboard.write(arrowLft);
+      Keyboard.releaseAll();
+      Keyboard.end();
+      delay(300);
+                // adjust switch speed. for one click one input
                           // go back in web browser
-        } else if(pushState == 2){
-          //coming sooon
-          }; 
+   } else if(pushState == 2){
+      Serial.println(pushState);
+                              //check mode and output
+      Keyboard.begin();
+      Keyboard.press(alt);
+      Keyboard.write(arrowLft);
+      Keyboard.releaseAll();
+      Keyboard.end();
+      delay(300);
+                //coming sooon
+    }; 
 }
