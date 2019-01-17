@@ -18,13 +18,17 @@
 
 Encoder Enc(3,2);
 long count = -999; 
-
-
+                   //lotate count
+char lotState = 0; 
+                   // lotate state 
+                   // 0 stop
+                   // 1 left
+                   // -1 right 
 
 void setup() {
     Serial.begin(9600); 
                         // for serial monitor
-    Serial.print("test"); 
+    Serial.println("test"); 
                           // notice start
     pinMode(6,OUTPUT);
     digitalWrite(6,LOW);
@@ -49,12 +53,26 @@ void setup() {
 
 void loop() {
   long sen = Enc.read();
-                         //sensing 
+                           //sensing 
   if (sen != count){
     Serial.print("ct =");
     Serial.print(sen);
     Serial.println();
+    
+    if(sen > count){
+        lotState = 1;
+        Serial.println("left");
+      }else if(sen < count){
+        lotState = -1;
+        Serial.println("right");
+        };
+    
+    
+    
     count = sen;
+   
+
+    
    };
    // if a character is sent from the serial monitor,
   // reset both back to zero.
