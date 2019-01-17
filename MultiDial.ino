@@ -4,8 +4,12 @@
 #include <Mouse.h> 
                       //for scroll
 #include <Keyboard.h>
-                      //for key 
+                      //for key
 
+char alt = KEY_LEFT_ALT ;
+char arrowLft = KEY_LEFT_ARROW ;
+char arrowRgt = KEY_RIGHT_ARROW ;
+               
 // match port
 // board                                    sensor 
 //      6 o |                              -| GND                                 
@@ -15,15 +19,25 @@
 //      2 o |                              -| CLK
 // 2,3 are inturupt for better performance
 
-
 Encoder Enc(3,2);
 long count = -999; 
                    //lotate count
-bool lotState = 0; 
+int lotState = 0; 
                    // lotate state 
                    // 1 left
                    // 0 right 
-
+                   // if mode change add function ex mpv
+                   // 3 , 1 frame >> 
+                   // 2 . 1frame <<
+int pushState =0;
+                   // 0 low
+                   // 1 high
+                   // if press T time mode change
+                   // 2 low
+                   // 3 high 
+int mode = 0; 
+               //mode1 = 0 
+               //mode2 = 2                     
 void setup() {
     Serial.begin(9600); 
                         // for serial monitor
@@ -51,22 +65,24 @@ void setup() {
   }
 
 void loop() {
-  long sen = Enc.read();
+  long rotSen = Enc.read();
+  int pushSen = digitalRead(4);
                            //sensing 
-  if (sen != count){
+  if (rotSen != count){
       Serial.print("ct =");
-      Serial.print(sen);
+      Serial.print(rotSen);
       Serial.println();
     
-      if(sen > count){
+      if(rotSen > count){
           lotState = 1;
           Serial.println("left");
-        }else if(sen < count){
+        }else if(rotSen < count){
           lotState = 0;
           Serial.println("right");
         };
         
-    count = sen;
+    count = rotSen;
+    
     };
         
                                      // if a character is sent from the serial monitor,
@@ -75,5 +91,20 @@ void loop() {
         Serial.read();
         Serial.println("Reset to zero");
         Enc.write(0);
-     }
+     };
+    
+    pushState = pushSen + mode ; // temp
+    
+  if(pushState == 0){
+    Serial.print(pushState);
+    Keyboard.begin();
+    Keyboard.press(alt);
+    Keyboard.write(arrowLft);
+    Keyboard.releaseAll();
+    Keyboard.end();
+    delay(300);
+                          // go back in web browser
+        } else if(pushState == 2){
+          //coming sooon
+          }; 
 }
