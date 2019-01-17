@@ -19,11 +19,10 @@
 Encoder Enc(3,2);
 long count = -999; 
                    //lotate count
-char lotState = 0; 
+bool lotState = 0; 
                    // lotate state 
-                   // 0 stop
                    // 1 left
-                   // -1 right 
+                   // 0 right 
 
 void setup() {
     Serial.begin(9600); 
@@ -63,7 +62,7 @@ void loop() {
         lotState = 1;
         Serial.println("left");
       }else if(sen < count){
-        lotState = -1;
+        lotState = 0;
         Serial.println("right");
         };
     
@@ -74,6 +73,8 @@ void loop() {
 
     
    };
+    
+    
    // if a character is sent from the serial monitor,
   // reset both back to zero.
   if (Serial.available()) {
