@@ -79,16 +79,16 @@ rotState = rotState + mode ;
       if(rotSen > count){
           //if (rotState == 1){
               Serial.println("left");
-              Mouse.move(0,0,-3);
-                                  // scroll down 
+              Mouse.move(0,0,-1);
+                                  // scroll down
           //}else if(rotState == 3){
               Serial.println("mode2 left");            
           //}; 
         }else if(rotSen < count){
           //if (rotState == 0){
               Serial.println("right");
-              Mouse.move(0,0,3);
-                                  // scroll up
+              Mouse.move(0,0,1);
+                                 // scroll up
           //}else if(rotState == 2){
               Serial.println("mode2 right");            
           //}; 
