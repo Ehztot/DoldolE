@@ -54,33 +54,26 @@ void loop() {
   long sen = Enc.read();
                            //sensing 
   if (sen != count){
-    Serial.print("ct =");
-    Serial.print(sen);
-    Serial.println();
+      Serial.print("ct =");
+      Serial.print(sen);
+      Serial.println();
     
-    if(sen > count){
-        lotState = 1;
-        Serial.println("left");
-      }else if(sen < count){
-        lotState = 0;
-        Serial.println("right");
+      if(sen > count){
+          lotState = 1;
+          Serial.println("left");
+        }else if(sen < count){
+          lotState = 0;
+          Serial.println("right");
         };
-    
-    
-    
+        
     count = sen;
-   
-
-    
-   };
-    
-    
-   // if a character is sent from the serial monitor,
-  // reset both back to zero.
-  if (Serial.available()) {
-    Serial.read();
-    Serial.println("Reset to zero");
-    Enc.write(0);
-    
-  }
+    };
+        
+                                     // if a character is sent from the serial monitor,
+                                     // reset both back to zero.
+    if (Serial.available()) {
+        Serial.read();
+        Serial.println("Reset to zero");
+        Enc.write(0);
+     }
 }
