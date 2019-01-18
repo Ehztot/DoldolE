@@ -21,6 +21,7 @@ char arrowRgt = KEY_RIGHT_ARROW ;
 
 Encoder Enc(3,2);
 long count = -999; 
+bool T = 0;
                    //rotate count
 int rotState = 0; 
                    // rotate state 
@@ -71,27 +72,30 @@ void loop() {
 
 rotState = rotState + mode ;
                            
+ rotState = rotSen + mode*2 ;
+                           
   if (rotSen != count){
       Serial.print("ct =");
       Serial.print(rotSen);
       Serial.println();
     
       if(rotSen > count){
-          //if (rotState == 1){
+          if (rotState - count == 1){
               Serial.println("left");
               Mouse.move(0,0,-1);
                                   // scroll down
-          //}else if(rotState == 3){
+          }else if(rotState - count == 3){
               Serial.println("mode2 left");            
-          //}; 
+              }; 
         }else if(rotSen < count){
-          //if (rotState == 0){
-              Serial.println("right");
-              Mouse.move(0,0,1);
+                if (rotState - count == -1){
+                    Serial.println("right");
+                    Mouse.move(0,0,1);
                                  // scroll up
-          //}else if(rotState == 2){
-              Serial.println("mode2 right");            
-          //}; 
+                }else if(rotState - count == 1){
+                    Serial.println("mode2 right");            
+                    Serial.println(rotState - count);
+                }; 
         };
         
  count = rotSen ;
@@ -108,26 +112,22 @@ rotState = rotState + mode ;
     
     pushState = pushSen + mode ; // different value for diffrent mode
     
-  if(pushState == 0){
-      Serial.println(pushState);
+ if(pushState == 0){
+            Serial.print("func:");
+            Serial.println("backward");
                               //check mode and output
-      Keyboard.begin();
-      Keyboard.press(alt);
-      Keyboard.write(arrowLft);
-      Keyboard.releaseAll();
-      Keyboard.end();
-      delay(300);
-                // adjust switch speed. for one click one input
-                          // go back in web browser
+            Keyboard.begin();
+            Keyboard.press(alt);
+            Keyboard.write(arrowLft);
+            Keyboard.releaseAll();
+            Keyboard.end();
+            delay(300);
+                                // adjust switch speed. for one click one input
+                                // go back in web browser
    } else if(pushState == 2){
       Serial.println(pushState);
                               //check mode and output
-      Keyboard.begin();
-      Keyboard.press(alt);
-      Keyboard.write(arrowLft);
-      Keyboard.releaseAll();
-      Keyboard.end();
-      delay(300);
+ 
                 //coming sooon
     }; 
 }
